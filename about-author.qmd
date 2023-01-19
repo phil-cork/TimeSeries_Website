@@ -1,0 +1,6 @@
+---
+title: "About Author"
+editor: visual
+---
+
+This is the about author page. Very exciting.

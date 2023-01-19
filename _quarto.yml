@@ -1,0 +1,41 @@
+project:
+  type: website
+
+website:
+  title: "ANLY560"
+  sidebar:
+    style: "docked"
+    contents:
+      - text: Home
+        file: index.qmd
+      - file: about-author.qmd
+        text: About
+      - file: introduction.qmd
+        text: Introduction
+      - file: data-sources.qmd
+        text: Data Sources
+      - file: data-visualization.qmd
+        text: Data Visualization
+      - file: exploratory-data-analysis.qmd
+        text: Exploratory Data Analysis
+      - file: models.qmd
+        text: ARMA/ARIMA/SARIMA Models
+      - file: spectral-analysis.qmd
+        text: Spectral Analysis and Filtering
+      - file: financial-ts-models.qmd
+        text: Financial Time Series Models
+      - file: deep-learning.qmd
+        text: Deep Learning for TS
+      - file: conclusions.qmd
+        text: Conclusions
+      - file: dv.qmd
+        text: Data Vizes in TS
+
+format:
+  html:
+    theme: lumen
+    css: styles.css
+    toc: true
+
+editor: visual
+

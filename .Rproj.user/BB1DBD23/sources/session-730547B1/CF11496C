@@ -1,0 +1,31 @@
+{
+    "id": "CF11496C",
+    "path": "~/Georgetown/Spring2023/TimeSeries/ANLY560_website/deep-learning.qmd",
+    "project_path": "deep-learning.qmd",
+    "type": "quarto_markdown",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1674144246674.0,
+    "source_on_save": false,
+    "relative_order": 4,
+    "properties": {
+        "rmdVisualMode": "true",
+        "rmdVisualWrapConfigured": "true",
+        "source_window_id": "",
+        "Source": "Source",
+        "docOutlineVisible": "1",
+        "rmdVisualCollapsedChunks": "",
+        "cursorPosition": "11,0",
+        "scrollLine": "0",
+        "rmdVisualModeLocation": "2:0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1674144269,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1674144269970,
+    "read_only": false,
+    "read_only_alternatives": []
+}
