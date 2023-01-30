@@ -1,3 +1,5 @@
 /.quarto/
 /_site/
 .Rproj.user
+_functions/pw.txt
+.gitignore
