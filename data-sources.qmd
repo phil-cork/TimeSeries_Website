@@ -8,4 +8,100 @@ execute:
   echo: false
 ---
 
-This is the Data Sources page.
+```{r, echo=FALSE, results='hide', message=FALSE, warning=FALSE}
+library(tidyverse)
+library(tidyquant)
+library(plotly)
+```
+
+To better understand Magic the Gathering player behavior and sentiment as a proxy for Hasbro's financial performance, this project draws data from three sources: an open source repository of Magic card prices from the largest online secondary market, Reddit's API for accessing posts and comments in relevant Magic communities, and Hasbro's stock performance.
+
+### MagicJSON
+
+To track the secondary market for Magic cards in which stores and players sell cards, this open source project collects pricing data for popular Magic products and cards over the last ninety days. In this case, we use two databases. First, the pricing data, which we filter to only include data for printed cards and track prices for TCGPlayer, the largest online secondary market outlet. We then store the price for each card style (whether it is printed in a more rare foil treatment or not) over the included timeframe. This pricing database is then connected to the card database to gather data about the rarity and functionality of each card. Code for processing price data is [available on Github](https://github.com/phork37/TimeSeries_Website/blob/main/_analysis/process_prices.ipynb). Documentation for the MagicJSON project can be accessed through [their developer website](https://mtgjson.com).
+
+As depicted below, the large majority of Magic cards are worth less than \$10. However, there are 10,534 printings worth more than \$10, with 1024 printings worth more than \$100, and 50 printings with an average price over \$1000. This context will set the stage for comparing card prices to consumer sentiment and Hasbro's performance.
+
+```{r}
+prices <- read.csv("_data/avg_price_output.csv")
+
+sub_10 <- prices %>%
+  filter(price < 10)
+ggplot(sub_10, aes(x=price, fill=type)) + 
+  geom_histogram(binwidth=1) + 
+  labs(title="Most Magic Cards Are Worth Less than $10", 
+       x="Avg. Price, Last 90 Days", y="Count") + 
+  theme_minimal()
+
+```
+
+### Magic Subreddit Posts
+
+To evaluate the changing mood and documented concerns of Magic players and collectors, we gather posts and comments from popular discussions in various Magic communities across Reddit. Reddit is a forum-based social media platform in which users self-select into 'subreddits' based on their interests. There are a number of Magic the Gathering subreddits related to different aspects of the game. For this analysis, we consider two different communities:
+
+-   [r/magicTCG](https://www.reddit.com/r/magicTCG) - The broadest Magic community which often features previews of new cards, breaking news, and opinion pieces written by fans regarding the game, particular cards or decks, or new playstyles.
+
+-   [r/mtgfinance](https://www.reddit.com/r/mtgfinance/) - The largest Magic community that is primarily focused on collecting or investing in Magic products. Discussions often include speculative investments, commentary on price changes in various products, and metrics of product performance over time.
+
+This dataset includes the contents of the post and comments and associated meta-data. The meta-data provides context like how many upvotes the post received, when it was posted, the type of post (image, text, link), and other details.
+
+Code for accessing and processing this text data is [available on Github](https://github.com/phork37/TimeSeries_Website/tree/main/_analysis). Access to the Reddit API is done through the [Python package, PRAW](https://praw.readthedocs.io/en/stable/).
+
+```{r}
+subs <- read.csv("_data/reddit_top_month_submissions.csv")
+subs$date <- as.Date(subs$date)
+
+g_reddit <- ggplot(subs, aes(x=date, fill=subreddit)) + 
+  geom_bar() + 
+  labs(title="Frequency of Reddit Posts, Jan 2023", x="", y="Count") + 
+  theme_minimal()
+
+ggplotly(g_reddit) %>%
+  layout(hovermode = "x")
+```
+
+### Hasbro Stock Prices
+
+To determine how Magic the Gathering influences Hasbro's performance, the above data will be compared to the changes in stock prices and valuation metrics for Hasbro over the last months.
+
+This data is collected through [Yahoo! finance](https://finance.yahoo.com/quote/HAS?p=HAS).
+
+```{r}
+options("getSymbols.warning4.0"=FALSE)
+options("getSymbols.yahoo.warning"=FALSE)
+
+tickers = c("HAS")
+for (i in tickers){
+  getSymbols(i,
+             from = "2019-01-01",
+             to = "2023-01-28")}
+
+x <- list(
+  title = "date"
+)
+y <- list(
+  title = "value"
+)
+
+stock <- data.frame(HAS$HAS.Adjusted)
+
+
+stock <- data.frame(stock,rownames(stock))
+colnames(stock) <- append(tickers,'Dates')
+
+stock$date<-as.Date(stock$Dates,"%Y-%m-%d")
+
+g_has <- ggplot(stock, aes(x=date)) +
+  geom_line(aes(y=HAS, colour="HAS"))+
+   labs(
+    title = "Hasbro Stock Prices",
+    subtitle = "2019-2023",
+    x = "Date",
+    y = "Adjusted Closing Prices")+
+    theme_minimal() + 
+    guides(colour=guide_legend(title="Stock")) 
+
+# add tool-tip frim plotly
+ggplotly(g_has) %>%
+  layout(hovermode = "x")
+```
