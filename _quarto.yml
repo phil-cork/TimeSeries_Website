@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: "ANLY560"
+  title: "ANLY560 - Phil Cork"
   sidebar:
     style: "docked"
     contents:
