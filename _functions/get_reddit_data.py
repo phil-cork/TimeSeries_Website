@@ -52,7 +52,7 @@ def get_submissions(subreddit:str, time_filter:str, limit:int) -> pd.DataFrame:
 ### COMMENT FUNCTIONS ### 
 
 
-def get_comments(reddit: praw.Reddit, submission_id: str) -> pd.DataFrame:
+def get_comments(submission_id: str) -> pd.DataFrame:
     '''
     Returned dataframe includes the comment's author, content, upvotes, downvotes, created time, and author's flair,
     as well as the comment's polarity and subjectivity.
