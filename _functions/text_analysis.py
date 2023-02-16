@@ -137,3 +137,19 @@ def process_text(documents:pd.Series, min_df, n_components:int, n_top_words:int)
     model, _, features = get_model_features(lem_docs, min_df, n_components)
 
     print_top_words(model, features, n_top_words)
+
+
+def get_sentiment(df, text_col_name:str):
+
+    df['lem'] = lemmatize_documents(df[text_col_name])
+    df['sub'] = df['lem'].apply(getSubjectivity)
+    df['pol'] = df['lem'].apply(getPolarity)
+
+    return df
+
+def getSubjectivity(text):
+    return TextBlob(text).sentiment.subjectivity
+  
+ #Create a function to get the polarity
+def getPolarity(text):
+    return TextBlob(text).sentiment.polarity
