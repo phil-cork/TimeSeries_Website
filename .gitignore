@@ -10,3 +10,12 @@ _data/allprices_output.csv
 .Rhistory
 _data/mtg_sealed/
 .Rhistory
+_analysis/data_visualization.twb
+_data/AllPrintings.json
+_data/card_prices_output.csv
+_data/cards.csv
+_data/magic_reddit.db
+_data/reddit_top_year_submissions.csv
+_data/sealed_market_value.numbers
+_data/sealed_output.csv
+_data/sets_over_time.numbers

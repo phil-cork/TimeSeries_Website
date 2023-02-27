@@ -14,7 +14,7 @@ library(tidyquant)
 library(plotly)
 ```
 
-To examine how Magic's secondary market and player sentiment might influence Hasbro's stock prices, we first set the stage with a brief summary of recent events.
+To examine how Magic's secondary market might influence Hasbro's stock prices, we first set the stage with a brief summary of recent events.
 
 ### Magic the Gathering in 2022
 
@@ -109,7 +109,7 @@ With these trends in mind, it is worth noting that it is not strictly the declin
 
 We next turn to the underlying problems cited by the bombastic Bank of America article - the overprinting of Magic cards and the growing frustration among Magic the Gathering players as a result. While the Bank of America report brought these issues to the forefront, they were hardly the canary in the coalmine. The frustration among Magic players had been swelling for years and grew particularly vocal in 2022. We next examine how the conversation around Magic the Gathering changed over the course of the year and how investors keyed in on Hasbro's customers might have seen the Bank of America report coming before the rest of the market.
 
-###  Magic the Gathering Product Releases
+### Magic the Gathering Product Releases
 
 As the Bank of America report amplified, an increasingly common complaint among dedicated Magic the Gathering players has been the deluge of new products released in the last several years. In this graphic, each symbol represents an individual Magic release, some of which can contain up to 300 or more individual cards. Even from a glance, it becomes clear how since 2020, the volume of products has skyrocketed across every category of release.
 
@@ -118,9 +118,7 @@ As the Bank of America report amplified, an increasingly common complaint among 
 <iframe src="https://public.tableau.com/views/Magic_sets_over_time/Sheet1?:showVizHome=no&:embed=true"
  width="1045" height="545"></iframe>
 </html>
-
 ```
-
 This increase of production includes both new card designs and reprints of existing cards. New designs create excitement and new ways of playing Magic, but also add to the overall complexity of the game, already considered to be the [most complex game of all time](https://www.technologyreview.com/2019/05/07/135482/magic-the-gathering-is-officially-the-worlds-most-complex-game/). Reprints can also be enticing for players, particularly if desired cards are rare or old and thus demand a high price on the secondary market, but these new variations can have adverse effects on the card's value if overdone.
 
 It is not only the volume of products, but as alluded to on the [Data Sources page](/data-sources.html), it is also the ever-expanding contents of the products as well. In the last several years, Wizards of the Coast has dramatically expanded the variations of cards presented in each product. Whereas in years past cards would be available in either a non-foil or foil treatment, now many sets come with borderless versions with extended art or set-specific treatments. In a recent and particularly egregious example, the first standard set release of 2023, *Phyrexia: All Will Be One*, featured a single card with ten different visual styles.
