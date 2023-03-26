@@ -2,14 +2,10 @@
 /_site/
 .Rproj.user
 _functions/pw.txt
-.gitignore
-.Rhistory
 _functions/client_secret.txt
 _data/AllPrices.json
 _data/allprices_output.csv
-.Rhistory
 _data/mtg_sealed/
-.Rhistory
 _analysis/data_visualization.twb
 _data/AllPrintings.json
 _data/card_prices_output.csv
@@ -20,3 +16,9 @@ _data/sealed_market_value.numbers
 _data/sealed_output.csv
 _data/sets_over_time.numbers
 .Rhistory
+.quarto/preview/lock
+.Rproj.user/BB1DBD23/pcs/source-pane.pper
+.Rproj.user/BB1DBD23/sources/prop/F7CECEF7
+.Rproj.user/BB1DBD23/sources/prop/INDEX
+.quarto/preview/lock
+.Rproj.user/BB1DBD23/pcs/windowlayoutstate.pper
