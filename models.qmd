@@ -18,7 +18,6 @@ library(tseries)
 library(fpp2)
 library(fma)
 library(lubridate)
-library(tidyverse)
 library(TSstudio)
 library(quantmod)
 library(tidyquant)
@@ -27,7 +26,7 @@ library(plotly)
 
 Having established the rise and fall of Hasbro's stock price over recent years, our attention now turns to how well the stock's performance can be modeled and forecast based on only its past values. We first re-evaluate the stationarity of the data before building and evaluating potential models.
 
-###  Revisiting Stationarity
+### Revisiting Stationarity
 
 From the analysis conducted during the [exploratory](/exploratory-data-analysis.html) stage, Hasbro's stock data has been first-order differenced into a weakly stationary dataset. To confirm this transformation, we consider the ACF plot and Augmented Dickey-Fuller Test results for the differenced time series.
 
@@ -112,7 +111,7 @@ names(temp)= c("p","d","q","AIC","BIC","AICc")
 | 1   | 1   | 1   | 4060.197   | 4074.941   | 4060.221 |
 | 1   | 1   | 2   | 4062.173   | 4081.832   | 4062.213 |
 
-From considering the AIC and BIC values, two model evaluation measures we seek to minimize, it seems the simplest models perform the best. The model that considers only the differenced data (p=0, d=1, q=0) provides the minimum BIC, while the model that considers the differenced data with a single lag term (p=1, d=1, q=0) provides the minimum AIC with a slightly higher BIC. Given that both of these models make a logical sense based on the use of financial data, we will proceed in comparing them with further diagnostic analysis.
+From considering the AIC and BIC values, two model evaluation measures we seek to minimize, it seems the simplest models perform the best. The model that considers only the differenced data (p=0, d=1, q=0), essentially making it a random walk model, provides the minimum BIC, while the model that considers the differenced data with a single lag term (p=1, d=1, q=0) provides the minimum AIC with a slightly higher BIC. Given that both of these models make a logical sense based on the use of financial data, we will proceed in comparing them with further diagnostic analysis.
 
 ```{r}
 model_output <- capture.output(sarima(Hasbro, 0,1,0))
@@ -135,7 +134,15 @@ auto_model
 |--------------------|---------|---------|
 | ARIMA(0,1,0)       | 4058.62 | 4063.53 |
 
-Without any further parameters provided, the Auto-ARIMA function suggests that the (0,1,0) model is the best fit and returns the same AIC and BIC as the manually tuned models. Though this process does not always optimize a model perfectly, it is a helpful confirmation of our process in this case and affirms the decision to proceed with the first-order difference model.
+Without any further parameters provided, the Auto-ARIMA function suggests that the random walk (0,1,0) model is the best fit and returns the same AIC and BIC as the manually tuned models. Though this process does not always optimize a model perfectly, it is a helpful confirmation of our process in this case and affirms the decision to proceed with the random walk model.
+
+The model of the equation is thus simply:
+
+$$
+𝑋_{𝑖+1} =𝑋_𝑖+ \epsilon_i
+$$
+
+### Forecasting
 
 ```{r, echo=FALSE, results='hide', message=FALSE, warning=FALSE}
 fit <- Arima(Hasbro, order=c(1,1,0))
@@ -149,7 +156,7 @@ autoplot(forecast(fit,20)) +
 
 The shortcoming of the simplicity of the model, then, becomes more apparently in the forecasting process, where each prediction appears to simply be sideways movement of the most recent value. The 80% and 95% confidence intervals are often quite broad, suggesting that within the next month, the stock's price could move somewhere between \$55 and \$75, a range that's roughly one-fourth to one-third of the stock's price over the course of 2022.
 
-###  Benchmark Methods
+### Benchmark Methods
 
 With this rather broad estimation in mind, it is worth considering whether the model can out perform benchmark measures by comparing how well it performs on predicting test data using training data versus how well the mean or naive estimate methods perform in the same context.
 
@@ -205,6 +212,6 @@ autoplot(train) +
 
 Both the evaluation metrics and plotted forecasting values make it clear that while the model outperforms the mean benchmark (which is inflated by higher values in previous years), it performs almost identically to the naive method benchmark. Given the simplicity of the model, this is not particularly surprising. Without a seasonal component to take into account, the weakly stationary data has a consistent mean and variance, which would in turn lead to a set of predictions that do not vary over the predicted time frame.
 
-###  Conclusion
+### Conclusion
 
 We first reestablished the stationarity of the first-order difference of Hasbro's stock price data. We then used ACF and PACF plots to choose a subset of model parameters. We built a model that used only the differenced data, as it provided the best performance and most intuitive explanation of the data. We then used the model to forecast future stock prices and compared its predictions to benchmark methods. Ultimately, the model proved to perform better than the simple mean method, but only just as well as a naive benchmark method.

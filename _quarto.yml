@@ -21,6 +21,8 @@ website:
         text: Exploratory Data Analysis
       - file: models.qmd
         text: ARMA/ARIMA/SARIMA Models
+      - file: arimax.qmd
+        text: ARIMAX/SARIMAX/VAR Models
       - file: spectral-analysis.qmd
         text: Spectral Analysis and Filtering
       - file: financial-ts-models.qmd

@@ -59,6 +59,7 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -125,6 +126,11 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./models.html" class="sidebar-item-text sidebar-link active">ARMA/ARIMA/SARIMA Models</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./arimax.html" class="sidebar-item-text sidebar-link">ARIMAX/SARIMAX/VAR Models</a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -302,7 +308,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p>From considering the AIC and BIC values, two model evaluation measures we seek to minimize, it seems the simplest models perform the best. The model that considers only the differenced data (p=0, d=1, q=0) provides the minimum BIC, while the model that considers the differenced data with a single lag term (p=1, d=1, q=0) provides the minimum AIC with a slightly higher BIC. Given that both of these models make a logical sense based on the use of financial data, we will proceed in comparing them with further diagnostic analysis.</p>
+<p>From considering the AIC and BIC values, two model evaluation measures we seek to minimize, it seems the simplest models perform the best. The model that considers only the differenced data (p=0, d=1, q=0), essentially making it a random walk model, provides the minimum BIC, while the model that considers the differenced data with a single lag term (p=1, d=1, q=0) provides the minimum AIC with a slightly higher BIC. Given that both of these models make a logical sense based on the use of financial data, we will proceed in comparing them with further diagnostic analysis.</p>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="models_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
@@ -336,7 +342,14 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p>Without any further parameters provided, the Auto-ARIMA function suggests that the (0,1,0) model is the best fit and returns the same AIC and BIC as the manually tuned models. Though this process does not always optimize a model perfectly, it is a helpful confirmation of our process in this case and affirms the decision to proceed with the first-order difference model.</p>
+<p>Without any further parameters provided, the Auto-ARIMA function suggests that the random walk (0,1,0) model is the best fit and returns the same AIC and BIC as the manually tuned models. Though this process does not always optimize a model perfectly, it is a helpful confirmation of our process in this case and affirms the decision to proceed with the random walk model.</p>
+<p>The model of the equation is thus simply:</p>
+<p><span class="math display">\[
+𝑋_{𝑖+1} =𝑋_𝑖+ \epsilon_i
+\]</span></p>
+</section>
+<section id="forecasting" class="level3">
+<h3 class="anchored" data-anchor-id="forecasting">Forecasting</h3>
 <div class="cell">
 
 </div>
