@@ -147,6 +147,9 @@ just_logged_volume <- all_prices %>%
 
 all_prices_ts <- bind_cols(all_prices_ts, just_logged_volume)
 
+# export data for use in GARCH Model page without rerunning all processing code
+# write.csv(all_prices_ts, "_data/arimax-model-data.csv", row.names = FALSE)
+
 all_prices_ts <- ts(all_prices_ts)
 
 autoplot(all_prices_ts[,c(2:7)], facet=TRUE) + 
@@ -203,11 +206,11 @@ fit.reg <- lm(Hasbro ~ Collector+Set+Draft+SP500+Volume, data=all_prices_ts)
 
 |             | Estimate | Standard Error | T Value | P             |
 |-------------|----------|----------------|---------|---------------|
-| (Intercept) |  3.0551  | 2.5889         | 1.180   | 0.2444        |
-| Collector   |  0.8785  | 0.2162         | 4.063   | 0.0002 \*\*\* |
+| (Intercept) | 3.0551   | 2.5889         | 1.180   | 0.2444        |
+| Collector   | 0.8785   | 0.2162         | 4.063   | 0.0002 \*\*\* |
 | Set         | -0.2374  | 0.3987         | -0.595  | 0.5547        |
 | Draft       | -0.1426  | 0.1122         | -1.271  | 0.2105        |
-| S&P500      |  0.0323  | 0.3217         | 0.101   | 0.9203        |
+| S&P500      | 0.0323   | 0.3217         | 0.101   | 0.9203        |
 | Volume      | -0.1379  | 0.0322         | -4.276  | 0.0001 \*\*\* |
 
 Interestingly, when computing only the linear regression, the Collector Box products and Hasbro trade volume prove to be statistically significant. However, this model does not taking into account the endogenous auto-correlation present in the time series. To address this shortcoming, we model the residuals of the model using an ARIMA model.

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>ANLY560 - Financial Time Series Models</title>
+<title>ANLY560 - Phil Cork - Financial Time Series Models</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -59,6 +59,7 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -82,7 +83,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">ANLY560</a> 
+      <a href="./">ANLY560 - Phil Cork</a> 
     </div>
       </div>
       <div class="mt-2 flex-shrink-0 align-items-center">
@@ -125,6 +126,11 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./models.html" class="sidebar-item-text sidebar-link">ARMA/ARIMA/SARIMA Models</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./arimax.html" class="sidebar-item-text sidebar-link">ARIMAX/SARIMAX/VAR Models</a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -177,9 +183,213 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>This is the Financial Time Series Models page.</p>
+<div class="cell">
+
+</div>
+<section id="introduction" class="level4">
+<h4 class="anchored" data-anchor-id="introduction">Introduction</h4>
+<p>Thus far, we’ve explored two models for predicting Hasbro’s stock price. Using an <a href="./models.html">ARMA model</a>, we predicted the daily value of the stock based on previous values. While simple, this method did not provide much of a boost over benchmark methods. We then implemented a more complex <a href="./arimax.html">ARIMAX model</a>, adding independent variables that we hypothesized would further inform the model’s predictive capabilities. These variables included the S&amp;P500’s performance, Hasbro’s trade volume, and the weekly price of Magic the Gathering products, one of Hasbro’s most profitable and growing product lines. The results showed improvement over the ARIMA model, but still failed to capture all of the volatility reflected in Hasbro’s stock price in a tumultuous year.</p>
+<p><img src="images/magic-mh-hero.png" class="img-fluid"></p>
+<p>To further compare the ARIMAX model to other options, we pivot back to considering the daily Hasbro stock price and implement a GARCH model to capture the volatility previously not represented by the original ARMA model.</p>
+</section>
+<section id="revisiting-hasbro-stock-prices" class="level4">
+<h4 class="anchored" data-anchor-id="revisiting-hasbro-stock-prices">Revisiting Hasbro Stock Prices</h4>
+<p>We briefly revisit the plot of Hasbro’s closing stock price over the year for which we have Magic the Gathering secondary market data. We’re reminded of the tumultuous year it represents, with Hasbro’s stock losing roughly one-third of its market value in this window.</p>
+<p>Given the swing in values and magnitude of the range, we also take the log of the stock price to use for modeling.</p>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Hasbro Stock Price</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Hasbro Stock Price, Logged</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="financial-ts-models_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="financial-ts-models_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="investigating-the-returns-model-residuals" class="level4">
+<h4 class="anchored" data-anchor-id="investigating-the-returns-model-residuals">Investigating the Returns &amp; Model Residuals</h4>
+<p>In viewing the returns, there is a fairly centered mean around zero. There is also some clustered volatility in November of 2022, precisely the window in which Bank of America published its findings on how Hasbro was negatively impacting the value of Magic the Gathering. Given that the data does not have the appearance of simply Gaussian white noise, there is an opportunity for further modeling to improve the forecasting results.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="financial-ts-models_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>With this in mind, we recreate the original <code>ARIMA(0,1,0)</code> model from the last time working with daily Hasbro stock prices. We then extract the residuals, or the remaining unexplained variance, and model only the residuals using a GARCH model. To determine the parameters of the GARCH model, we evaluate the squared residuals using the same PACF and ACF techniques as before.</p>
+<div class="cell">
+
+</div>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">ACF of Squared Returns</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">PACF of Squared Returns</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="financial-ts-models_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="financial-ts-models_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="garch-model" class="level4">
+<h4 class="anchored" data-anchor-id="garch-model">GARCH Model</h4>
+<p>From viewing the ACF and PACF of the squared residuals, it’s clear in both instances that the first few lags remain correlated at a statistically significant level. This suggests that a GARCH model will be most helpful, with parameters somewhere between 1 and 3. We iteratively loop through each combination to find the optimal values. After testing for models that minimize AIC, we note that <code>GARCH(1,1)</code> is both the simplest and most effective option.</p>
+<div class="cell">
+
+</div>
+<section id="model-estimates-and-error-analysis" class="level5">
+<h5 class="anchored" data-anchor-id="model-estimates-and-error-analysis">Model Estimates and Error Analysis</h5>
+<table class="table">
+<thead>
+<tr class="header">
+<th></th>
+<th>Estimate</th>
+<th>Std. Error</th>
+<th>T-value</th>
+<th>p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>mu</td>
+<td>-0.0015</td>
+<td>0.0013</td>
+<td>-1.611</td>
+<td>0.2457</td>
+</tr>
+<tr class="even">
+<td>omega</td>
+<td>0.0001</td>
+<td>0.0000</td>
+<td>2.194</td>
+<td>0.0283</td>
+</tr>
+<tr class="odd">
+<td>alpha1</td>
+<td>0.1768</td>
+<td>0.0782</td>
+<td>2.147</td>
+<td>0.0318</td>
+</tr>
+<tr class="even">
+<td>beta1</td>
+<td>0.4599</td>
+<td>0.2027</td>
+<td>2.269</td>
+<td>0.0233</td>
+</tr>
+</tbody>
+</table>
+<p>After testing the <code>GARCH(1,1)</code> model against other options with slightly worse AIC values, the former does indeed seem most suited for estimating the remaining residuals. We observe that the <code>GARCH(1,1)</code> model performs best, with all three coefficients reported as statistically significant with a p-value of 0.05.</p>
+</section>
+<section id="standardized-residuals-tests" class="level5">
+<h5 class="anchored" data-anchor-id="standardized-residuals-tests">Standardized Residuals Tests</h5>
+<table class="table">
+<thead>
+<tr class="header">
+<th></th>
+<th></th>
+<th></th>
+<th>Statistic</th>
+<th>p-Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Jarque-Bera Test</td>
+<td>R</td>
+<td>Chi^2</td>
+<td>2.732</td>
+<td>0.2551</td>
+</tr>
+<tr class="even">
+<td>Shapiro-Wilk Test</td>
+<td>R</td>
+<td>W</td>
+<td>0.993</td>
+<td>0.3973</td>
+</tr>
+<tr class="odd">
+<td>Ljung-Box Test</td>
+<td>R</td>
+<td>Q(10)</td>
+<td>7.701</td>
+<td>0.6579</td>
+</tr>
+<tr class="even">
+<td>Ljung-Box Test</td>
+<td>R</td>
+<td>Q(15)</td>
+<td>10.62</td>
+<td>0.7789</td>
+</tr>
+<tr class="odd">
+<td>Ljung-Box Test</td>
+<td>R</td>
+<td>Q(20)</td>
+<td>13.05</td>
+<td>0.8747</td>
+</tr>
+<tr class="even">
+<td>Ljung-Box Test</td>
+<td>R^2</td>
+<td>Q(10)</td>
+<td>8.753</td>
+<td>0.5729</td>
+</tr>
+<tr class="odd">
+<td>Ljung-Box Test</td>
+<td>R^2</td>
+<td>Q(15)</td>
+<td>10.13</td>
+<td>0.8111</td>
+</tr>
+<tr class="even">
+<td>Ljung-Box Test</td>
+<td>R^2</td>
+<td>Q(20)</td>
+<td>24.54</td>
+<td>0.2195</td>
+</tr>
+<tr class="odd">
+<td>LM Arch Test</td>
+<td>R</td>
+<td>TR^2</td>
+<td>7.667</td>
+<td>0.8105</td>
+</tr>
+</tbody>
+</table>
+<p>We also observe that the Ljung-Box Test reports non-significant p-values for each value. This is what we would hope to see given that the null hypothesis of the Ljung-Box Test is that the model does not show a lack of fit. We cannot reject this null hypothesis and thus proceed with the chosen model.</p>
+</section>
+</section>
+<section id="final-model-equation" class="level4">
+<h4 class="anchored" data-anchor-id="final-model-equation">Final Model &amp; Equation</h4>
+<p>Building on the original random walk model previously established, this process has shown that adding a GARCH model of the remaining residuals better captures the trends within the time series. The final model is thus an <code>ARIMA(0,1,0) + GARCH(1,1)</code>.This model can also be written mathematically as:</p>
+<p><span class="math inline">\(\phi(B) x_t = \delta + \theta(B) y_t\)</span>,</p>
+<p>where <span class="math inline">\(\phi(B)= 1\)</span>; and <span class="math inline">\(\theta(B)= 1\)</span>; and <span class="math inline">\(\delta = -0.0015\)</span></p>
+<p><span class="math inline">\(y_t=\sigma_t \epsilon_t\)</span></p>
+<p><span class="math inline">\(\sigma ^2 = 0.0001 + 0.1768(y_{t-1})^2 + 0.4599 \sigma_{t-1}^2\)</span></p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
