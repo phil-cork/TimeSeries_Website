@@ -16,7 +16,7 @@ library(plotly)
 
 To better understand Magic the Gathering secondary market as a proxy for Hasbro's financial performance, this project draws data from multiple sources: historic Magic the Gathering product data, weekly market prices from TCGPlayer, the largest online secondary market, and Hasbro's stock performance.
 
-###  Magic the Gathering Product Data
+### Magic the Gathering Product Data
 
 With 30 years worth of products released in a variety of formats, the first step in better understanding the Magic the Gathering landscape is to depict how the product releases have changed over time. Scraped from [the Wikipedia listing for Magic the Gathering](https://en.wikipedia.org/wiki/List_of_Magic:_The_Gathering_sets), this dataset includes the release date for each product, and the product category it falls into. For Booster Boxes, the primary product type, additional data is merged from card database [Scryfall](https://scryfall.com/sets) as to how many cards were included in a given product. As a brief introduction to how Magic has changed over time, we can see the total number of cards released each year in the primary product format, Booster Boxes.
 
@@ -39,7 +39,7 @@ With 30 years worth of products released in a variety of formats, the first step
 
 As this plot depicts, there has been a rapid escalation in the sheer volume of cards hitting shelves in local gamestores across the country. It is worth noting that these figures do not represent only new printings of cards, but the total number of cards in a given product, including new designs, reprinted cards from previous sets, deluxe versions of cards, or cards with alternative art or styles. It also does not take into account cards printed in myriad of other product types. Even so, the trend in how Magic the Gathering products have changed over the last thirty years becomes apparent.
 
-###  TCGPlayer
+### TCGPlayer
 
 As one of the largest online marketplaces for trading card game products, [TCGPlayer](https://www.tcgplayer.com/) is an authoritative source on the performance of a given card or product when it is bought or sold by players and stores on the open secondary market.
 
@@ -67,7 +67,7 @@ ggplot(weekly, aes(x=week_start, y=avg_price, color=box_type)) +
 
 ```
 
-###  Hasbro Stock Prices
+### Hasbro Stock Prices
 
 To determine how Magic the Gathering influences Hasbro's performance, the above data will be compared to the changes in stock prices and valuation metrics for Hasbro over the last months.
 

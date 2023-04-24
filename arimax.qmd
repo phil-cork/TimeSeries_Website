@@ -342,10 +342,10 @@ With these results, along with the previous model diagnostic steps, we proceed w
 ```{r}
 # fit the model using Arima(), obtain the summary fit, write the equation
 final_fit <- Arima(all_prices_ts[, "Hasbro"],order=c(1,0,1), xreg=xreg)
-#summary(final_fit)
+# summary(final_fit)
 ```
 
-After manually investigating models, we select the ARIMA(1,1) model for its simplicity, optimized AIC and BIC values, and smoother predictive performance over the forecasting horizon explored above.
+After manually investigating models, we select the ARIMAX(1,1) model for its simplicity, optimized AIC and BIC values, and smoother predictive performance over the forecasting horizon explored above. It also features an RSME of 0.027, a noteable improvement over the 1.8 RSME of the ARMA model previously considered.
 
 The coefficients are slightly different from the original auto-arima model's output due to the inclusion of the intercept in these results. The same variables remain statistically significant, however.
 

@@ -10,13 +10,13 @@ execute:
 
 Hasbro's stock has fallen sharply in recent months after mainstream news outlets accused the company of killing their "golden goose" by overproducing and overcharging for Magic the Gathering products. Fans of Magic the Gathering, however, had expressed these same frustrations for months before journalists and news pundits caught on. Is it possible that by analyzing the secondary market for Magic products, investors could have predicted this downturn sooner?
 
-![](website_images/Hasbro-logo-featured.jpg){fig-alt="Hasbro logo and iconic brands" fig-align="center" width="336"}
+![](images/Hasbro-logo-featured.jpg){fig-alt="Hasbro logo and iconic brands" fig-align="center"}
 
 ### Hasbro
 
 Hasbro is a United States-based, multinational conglomerate that owns the trademarks for a number of prominent toy and entertainment subsidiaries such as Milton Bradley, Tonka, Playskool, Parker Brothers and others. Their range of toy, game, and entertainment products include Nerf, G.I. Joe, Power Rangers, Monopoly, My Little Pony, and dozens of other brands. Chief among Hasbro's subsidiaries is Wizards of the Coast, the company responsible for the Dungeons & Dragons and Magic the Gathering brands. This project analyzes the Magic the Gathering trading card game as a proxy to better understand and potentially forecast Hasbro's financial performance.
 
-![](website_images/Magic-the-Gathering-logo.png){fig-align="center"}
+![](images/Magic-the-Gathering-logo.png){fig-align="center"}
 
 ### Magic the Gathering
 

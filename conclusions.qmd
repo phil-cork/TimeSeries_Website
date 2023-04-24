@@ -29,6 +29,8 @@ Along the way to this conclusion, several data constraints or other obstacles in
 # the volume of sales for magic products, player sentiment, and the supply of cards brought to market would all be helpful variables, but unavailable for one reason or another
 ```
 
+For how many collectors and players follow the Magic: the Gathering secondary market, accurate and up to date data can be surprisingly difficult to gather. TCGPlayer, the largest online market for Magic cards, has an API through which card and sealed product prices is made available and updated daily, but the API was closed, with only pre-existing third-party companies maintaining legacy access.
+
 ### Findings
 
 ```{r}

@@ -33,6 +33,7 @@ From the analysis conducted during the [exploratory](/exploratory-data-analysis.
 ```{r}
 HAS <- tq_get("HAS", get = "stock.prices", from = "2019-01-01", to = "2022-12-31")
 HAS$date<-as.Date(HAS$date)
+#write.csv(HAS, "_data/hasbro_stock.csv", row.names=FALSE)
 Hasbro <- ts(HAS$adjusted, frequency=365.25, start=2019)
 
 Hasbro %>% diff() %>% ggtsdisplay(main="Hasbro Stock, First Order Differencing") #first seasonal differencing
