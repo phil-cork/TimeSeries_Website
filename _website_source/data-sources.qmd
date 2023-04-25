@@ -1,0 +1,128 @@
+---
+title: "Data Sources"
+editor: visual
+format:
+  html:
+    toc: false
+execute:
+  echo: false
+---
+
+```{r, echo=FALSE, results='hide', message=FALSE, warning=FALSE}
+library(tidyverse)
+library(tidyquant)
+library(plotly)
+```
+
+To better understand Magic the Gathering secondary market as a proxy for Hasbro's financial performance, this project draws data from multiple sources: historic Magic the Gathering product data, weekly market prices from TCGPlayer, the largest online secondary market, and Hasbro's stock performance.
+
+\
+
+### Magic the Gathering Product Data
+
+With 30 years worth of products released in a variety of formats, the first step in better understanding the Magic the Gathering landscape is to depict how the product releases have changed over time. Scraped from [the Wikipedia listing for Magic the Gathering](https://en.wikipedia.org/wiki/List_of_Magic:_The_Gathering_sets), this dataset includes the release date for each product, and the product category it falls into. For Booster Boxes, the primary product type, additional data is merged from card database [Scryfall](https://scryfall.com/sets) as to how many cards were included in a given product. As a brief introduction to how Magic has changed over time, we can see the total number of cards released each year in the primary product format, Booster Boxes.
+
+\
+
+```{r, echo=FALSE, results='hide', message=FALSE, warning=FALSE}
+ ot <- read.csv("../_data/sets_over_time.csv")
+ ot$year <- substr(ot$Release.Date,1,4)
+ ot$year <- as.integer(ot$year)
+ 
+ by_year <- ot %>%
+   filter(Tag=="Booster") %>%
+   group_by(year) %>%
+   summarize(products=n(), total_cards=sum(Cards, na.rm = TRUE)) %>%
+   mutate(avg_size=round(total_cards/products,0))
+ 
+ ggplot(by_year, aes(x=year,y=total_cards)) + 
+   geom_line() + 
+   labs(x="", y="Cards", title="Magic Cards Proliferating", subtitle="Magic Cards in Booster Box Products, Scryfall") + 
+   theme_minimal()
+```
+
+\
+
+As this plot depicts, there has been a rapid escalation in the sheer volume of cards hitting shelves in local gamestores across the country. It is worth noting that these figures do not represent only new printings of cards, but the total number of cards in a given product, including new designs, reprinted cards from previous sets, deluxe versions of cards, or cards with alternative art or styles. It also does not take into account cards printed in myriad of other product types. Even so, the trend in how Magic the Gathering products have changed over the last thirty years becomes apparent.
+
+\
+
+### TCGPlayer
+
+As one of the largest online marketplaces for trading card game products, [TCGPlayer](https://www.tcgplayer.com/) is an authoritative source on the performance of a given card or product when it is bought or sold by players and stores on the open secondary market.
+
+While TCGPlayer has an API available, it is currently closed to new users while the development team rebuilds the tool from the ground up. To make accessing market data more complicated, the pricing data is presented to the users on each product page as a dynamically generated image, meaning the underlying data is inaccessible.
+
+As such, data for the current and historic market price for products needed to be manually gathered and combined. Because of the time intensive nature of this task, this analysis is limited to sealed booster boxes released in 2022. The dataset includes the weekly average price for each product and other features of the product, such as the name of the product, which set of cards it contains, and the type of product it is.
+
+As a cursory glance at how the market value for magic the Gathering products has changed over the last year, we consider the average price of Booster Box products based on the type of product. In each case, 2022 saw a year of volatile growth in the first half of the year, followed by a period of stagnation and decreasing market value. These products are further segmented by the set of cards released and examined more closely on the [Data Visualization](/data-visualization.html) page.
+
+\
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+# some plot using this data
+sealed <- read.csv("../_data/sealed_market_value.csv")
+sealed$week_start <- as.Date(sealed$week_start)
+sealed$week_end <- as.Date(sealed$week_end)
+
+weekly <- sealed %>%
+  filter(week_start < "2023-01-01") %>%
+  group_by(week_start, box_type) %>%
+  summarize(avg_price=mean(price))
+
+ggplot(weekly, aes(x=week_start, y=avg_price, color=box_type)) + 
+  geom_line() + 
+  labs(x="", y="Avg. Market Value, ($)", title="New Magic Products Declining in Market Value",
+       subtitle="Magic the Gathering Booster Boxes, 2022 Releases", color="Booster Boxes") + theme_minimal() 
+
+```
+
+\
+
+### Hasbro Stock Prices
+
+To determine how Magic the Gathering influences Hasbro's performance, the above data will be compared to the changes in stock prices and valuation metrics for Hasbro over the last months.
+
+This data is collected through [Yahoo! finance](https://finance.yahoo.com/quote/HAS?p=HAS). A further exploration of Hasbro's stock price is included on the [Exploratory Data Analysis](/exploratory-data-analysis.html) page.
+
+\
+
+```{r}
+options("getSymbols.warning4.0"=FALSE)
+options("getSymbols.yahoo.warning"=FALSE)
+
+tickers = c("HAS")
+for (i in tickers){
+  getSymbols(i,
+             from = "2019-01-01",
+             to = "2023-01-28")}
+
+x <- list(
+  title = "date"
+)
+y <- list(
+  title = "value"
+)
+
+stock <- data.frame(HAS$HAS.Adjusted)
+
+
+stock <- data.frame(stock,rownames(stock))
+colnames(stock) <- append(tickers,'Dates')
+
+stock$date<-as.Date(stock$Dates,"%Y-%m-%d")
+
+g_has <- ggplot(stock, aes(x=date)) +
+  geom_line(aes(y=HAS, colour="HAS"))+
+   labs(
+    title = "Hasbro Stock Prices",
+    subtitle = "2019-2023",
+    x = "Date",
+    y = "Adjusted Closing Prices")+
+    theme_minimal() + 
+    guides(colour=guide_legend(title="Stock")) 
+
+# add tool-tip frim plotly
+ggplotly(g_has) %>%
+  layout(hovermode = "x")
+```
