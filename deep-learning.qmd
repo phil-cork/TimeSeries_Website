@@ -8,11 +8,11 @@ execute:
   echo: false
 ---
 
-Since our [multivariate analysis](arimax.html) using Magic: the Gathering cards to model Hasbro's stock pirce is constrained by a lack of daily data, we return to consider how well we can predict the stock price. In this iteration, however, we investigate the effectiveness of three neural network implementations to see if more sophisticated modeling techniques can improve results from our original [ARMA model](arima.html).
+Since our [multivariate analysis](arimax.html) using Magic: the Gathering cards to model Hasbro's stock price is constrained by a lack of daily data, we return to consider how well we can predict the stock price. In this iteration, however, we investigate the effectiveness of three neural network implementations to see if more sophisticated modeling techniques can improve results from our original [ARMA model](arima.html).
 
 As with most machine learning techniques, there is a trade-off between interpretability and predictive power. In this case, we consider whether the more complicated neural nets outperform our simpler models enough to warrant their use. Given the goal of predicting a stock price, there is less prioritization given to being able to explain the model and a higher focus on its output.
 
-Before diving into the modeling techniques, we once again review the Hasbro stock price over the last several years. Even in viewing a scaled version of the data, we can clearly observe the market collapse in early 2020 due to the COVID-19 pandemic as well as the tumultuous performance of the stock across 2022, [as previously explored](data-visualization.html). We also denote the training data (blue) and test data (red) that will be used in building and evaluating the neural networks.
+Before diving into the modeling techniques, we review the Hasbro stock price over the last several years. Even in viewing a scaled version of the data, we can clearly observe the market collapse in early 2020 due to the COVID-19 pandemic as well as the tumultuous performance of the stock across 2022, [as previously explored](data-visualization.html). We also denote the training data (blue) and test data (red) we use in building and evaluating the neural networks.
 
 \
 
@@ -22,7 +22,7 @@ Before diving into the modeling techniques, we once again review the Hasbro stoc
 
 ## Neural Networks
 
-We consider three neutral networks designs. In each case, the models are built with and without L2 regularization to evaluate the reguarization's impact on overfitting and the error term. In each case, we set our partition to predict five days out to represent a week's worth of trading days.
+We consider three neutral networks designs. In each case, the models are built with and without L2 regularization to evaluate the regularization's impact on overfitting and the error term. In each case, we set our partition to predict five days out to represent a week's worth of trading days.
 
 ![](images/deep-learning/partitions.png)\
 
@@ -42,22 +42,20 @@ The first is a Recurrent Neural Network (RNN), a vanilla neural net implementati
 
 \
 
-From plotting the loss function over the coursre of each epoch, we see clearly the benefit of using regularization with the RNN model. The first graph shows a sharper descent in the loss term, but also depicts the model overfitting to the training data.
-
-\
+From plotting the loss function over the course of each epoch, the only clear difference between the two models is the starting point for the loss function, where the regularized iteration is twice as high as the regular RNN model. They both converge relatively quickly, however, so the impact of this difference is minimal.\
 
 | Model     | Train RSME | Test RSME |
 |-----------|------------|-----------|
 | RNN       | 0.03303    | 0.03158   |
 | RNN w/ L2 | 0.02831    | 0.02568   |
 
-The regularized implementation of the Recurrent Neural Network also performs better on both the training and testing data.
+In fact, the regularized implementation of the Recurrent Neural Network performs better on both the training and testing data.
 
 \
 
 ### Gated Recurrent Unit
 
-We then construct a Gated Recurrent Unit (GRU) neural network. To fight overfitting, this model includes a recurrent dropout mask which helps sever correlation between training data and the layer of the neural network that its exposed to. GRUs are noted as working well with small data. With only 1,000 observations across the train and test data, this could prove to be effective for the task at hand.
+We then construct a Gated Recurrent Unit (GRU) neural network. To further combat overfitting on the training data that includes anomalies like the stock price's all-time high as well as the COVID-19 pandemic, this model includes a recurrent dropout mask which helps sever correlation between training data and the layer of the neural network that its exposed to. GRUs are noted as working well with small data. With only 1,000 observations across the train and test data, this could prove to be effective for the task at hand.
 
 \
 
@@ -124,12 +122,13 @@ Having explored three difference architectures and their regularized counterpart
 We can then plot the actual and predicted values to discover where the model performs well and where it struggles to model Hasbro's stock price.
 
 ![](images/deep-learning/actual-preds-plot.png){fig-align="center"}
-In this plot, the green line depicts the predicted values for each daily Hasbro stock price. Surprisingly, the model follows and captures the COVID-19 pandemic effect rather well. The one area where it falls off in performance is the all-time highs reached in late 2019, where the model under-estimates the stock price for a few weeks in a row. Outside of this one area, the model performs well, despite the extensive degree of noise in the dataset.
+
+In this plot, the green line depicts the predicted values for each daily Hasbro stock price. Surprisingly, the model follows and captures the COVID-19 pandemic effect rather well. The one area where it falls off in performance is the all-time highs reached in late 2019, where the model underestimates the stock price for a few weeks in a row. Outside of this one area, the model performs well, despite the extensive degree of noise in the dataset.
 
 \
 
 ## Conclusion
 
-Does the added complexity of the neutral network sufficiently improve its predictive capabilities over the ARMA model? The selected ARMA model, which narrowly beat out a more naive benchmark, had a RSME of 1.8. As such, any of these neural networks offer impressive improvements in predicting Hasbro's stock price, particularly when considered that it is predicting further into the future than the ARMA model as well. Comparing this model to the ARIMA model is not quite an equivalent comparison because the ARIMA is limited to a weekly time series, but it also featured a similar RMSE of 0.027. 
+Does the added complexity of the neutral network sufficiently improve its predictive capabilities over the ARMA model? The selected ARMA model, which narrowly beat out a more naive benchmark, had a RSME of 1.8. As such, any of these neural networks offer impressive improvements in predicting Hasbro's stock price, particularly when considered that it is predicting further into the future than the ARMA model as well. Comparing this model to the ARIMA model is not quite an equivalent comparison because the ARIMA is limited to a weekly time series and only a year's worth of data, but it also featured a similar RMSE of 0.027.
 
-Because inference and interpretation are less crucial than precise forecasting in this instance, the neural network is the clearly superior model compared to the ARMA iteration. However, the ARIMAX model performing similarly while also working with less granular data suggests that were the data constraints of using Magic: the Gathering products as a model feature could be overcome, it could prove to be a more powerful model than deploying a neutral network with only past stock prices as means to predict future values.
+Because inference and interpretation are less crucial than precise forecasting in this instance, the neural network is the clearly superior model compared to the ARMA iteration. However, the ARIMAX model performing similarly while also working with less granular data suggests that, were the data constraints of using Magic: the Gathering products as a model feature overcome, it could prove to be a more powerful model than deploying a neutral network with only past stock prices as means to predict future values.

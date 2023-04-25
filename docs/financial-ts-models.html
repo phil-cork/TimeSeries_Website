@@ -186,12 +186,15 @@ ul.task-list li input[type="checkbox"] {
 <div class="cell">
 
 </div>
-<section id="introduction" class="level4">
-<h4 class="anchored" data-anchor-id="introduction">Introduction</h4>
 <p>Thus far, we’ve explored two models for predicting Hasbro’s stock price. Using an <a href="./models.html">ARMA model</a>, we predicted the daily value of the stock based on previous values. While simple, this method did not provide much of a boost over benchmark methods. We then implemented a more complex <a href="./arimax.html">ARIMAX model</a>, adding independent variables that we hypothesized would further inform the model’s predictive capabilities. These variables included the S&amp;P500’s performance, Hasbro’s trade volume, and the weekly price of Magic the Gathering products, one of Hasbro’s most profitable and growing product lines. The results showed improvement over the ARIMA model, but still failed to capture all of the volatility reflected in Hasbro’s stock price in a tumultuous year.</p>
+<p><br>
+</p>
 <p><img src="images/magic-mh-hero.png" class="img-fluid"></p>
+<p><br>
+</p>
 <p>To further compare the ARIMAX model to other options, we pivot back to considering the daily Hasbro stock price and implement a GARCH model to capture the volatility previously not represented by the original ARMA model.</p>
-</section>
+<p><br>
+</p>
 <section id="revisiting-hasbro-stock-prices" class="level4">
 <h4 class="anchored" data-anchor-id="revisiting-hasbro-stock-prices">Revisiting Hasbro Stock Prices</h4>
 <p>We briefly revisit the plot of Hasbro’s closing stock price over the year for which we have Magic the Gathering secondary market data. We’re reminded of the tumultuous year it represents, with Hasbro’s stock losing roughly one-third of its market value in this window.</p>
@@ -215,6 +218,8 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
+<p><br>
+</p>
 </section>
 <section id="investigating-the-returns-model-residuals" class="level4">
 <h4 class="anchored" data-anchor-id="investigating-the-returns-model-residuals">Investigating the Returns &amp; Model Residuals</h4>
@@ -224,7 +229,11 @@ ul.task-list li input[type="checkbox"] {
 <p><img src="financial-ts-models_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p><br>
+</p>
 <p>With this in mind, we recreate the original <code>ARIMA(0,1,0)</code> model from the last time working with daily Hasbro stock prices. We then extract the residuals, or the remaining unexplained variance, and model only the residuals using a GARCH model. To determine the parameters of the GARCH model, we evaluate the squared residuals using the same PACF and ACF techniques as before.</p>
+<p><br>
+</p>
 <div class="cell">
 
 </div>
@@ -247,13 +256,19 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
+<p><br>
+</p>
 </section>
 <section id="garch-model" class="level4">
 <h4 class="anchored" data-anchor-id="garch-model">GARCH Model</h4>
 <p>From viewing the ACF and PACF of the squared residuals, it’s clear in both instances that the first few lags remain correlated at a statistically significant level. This suggests that a GARCH model will be most helpful, with parameters somewhere between 1 and 3. We iteratively loop through each combination to find the optimal values. After testing for models that minimize AIC, we note that <code>GARCH(1,1)</code> is both the simplest and most effective option.</p>
+<p><br>
+</p>
 <div class="cell">
 
 </div>
+<p><br>
+</p>
 <section id="model-estimates-and-error-analysis" class="level5">
 <h5 class="anchored" data-anchor-id="model-estimates-and-error-analysis">Model Estimates and Error Analysis</h5>
 <table class="table">
@@ -297,7 +312,11 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
+<p><br>
+</p>
 <p>After testing the <code>GARCH(1,1)</code> model against other options with slightly worse AIC values, the former does indeed seem most suited for estimating the remaining residuals. We observe that the <code>GARCH(1,1)</code> model performs best, with all three coefficients reported as statistically significant with a p-value of 0.05.</p>
+<p><br>
+</p>
 </section>
 <section id="standardized-residuals-tests" class="level5">
 <h5 class="anchored" data-anchor-id="standardized-residuals-tests">Standardized Residuals Tests</h5>
@@ -377,12 +396,18 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
+<p><br>
+</p>
 <p>We also observe that the Ljung-Box Test reports non-significant p-values for each value. This is what we would hope to see given that the null hypothesis of the Ljung-Box Test is that the model does not show a lack of fit. We cannot reject this null hypothesis and thus proceed with the chosen model.</p>
+<p><br>
+</p>
 </section>
 </section>
 <section id="final-model-equation" class="level4">
 <h4 class="anchored" data-anchor-id="final-model-equation">Final Model &amp; Equation</h4>
 <p>Building on the original random walk model previously established, this process has shown that adding a GARCH model of the remaining residuals better captures the trends within the time series. The final model is thus an <code>ARIMA(0,1,0) + GARCH(1,1)</code>.This model can also be written mathematically as:</p>
+<p><br>
+</p>
 <p><span class="math inline">\(\phi(B) x_t = \delta + \theta(B) y_t\)</span>,</p>
 <p>where <span class="math inline">\(\phi(B)= 1\)</span>; and <span class="math inline">\(\theta(B)= 1\)</span>; and <span class="math inline">\(\delta = -0.0015\)</span></p>
 <p><span class="math inline">\(y_t=\sigma_t \epsilon_t\)</span></p>

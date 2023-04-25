@@ -186,21 +186,39 @@ ul.task-list li input[type="checkbox"] {
 <p>In pursuit of an answer, this project used exploratory data analysis to establish the connection between Magic cards and Hasbro’s stock, built several time series models for evaluating and forecasting Hasbro’s stock prices, and considered deep learning techniques for building upon these initial efforts.</p>
 <p>Ultimately, this analysis is too narrow in scope to answer this question sufficiently. One result that is apparent, however, is that if Magic: the Gathering Cards can predict Hasbro’s stock price, it is through a more complicated model or set of mechanisms than are presented here in this small scope.</p>
 <p>Along the way to this conclusion, several data constraints or other obstacles introduced limitations to the results. These challenges are worth further exploring and present a set of meaningful lessons and in and of themselves.</p>
-<div class="cell">
-
+<p><br>
+</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/mtg-commander.jpg" class="img-fluid figure-img" width="800"></p>
+</figure>
 </div>
-<section id="data-constraints" class="level3">
-<h3 class="anchored" data-anchor-id="data-constraints">Data Constraints</h3>
-<div class="cell">
-
+<p><br>
+</p>
+<section id="data-constraints" class="level2">
+<h2 class="anchored" data-anchor-id="data-constraints">Data Constraints</h2>
+<p>For how many collectors and players follow the Magic: the Gathering secondary market, accurate and up to date data can be surprisingly difficult to gather. TCGPlayer, the largest online market for Magic cards, has an API through which card and sealed product prices are made available and updated daily, but the API was previously made private, with only pre-existing third-party companies maintaining legacy access. Even on their website, the price plots and recent purchase history in presented through javascript, making it impossible to automatically scrape.</p>
+<p>And while there are open source communities dedicated to maintaining financial data on Magic: the Gathering, it either exists at the individual card level of which there are tens of thousands, is only stored for the last ninety days, which is insufficient for forecasting purposes, or tracks the median price of products, which is so consistently stationary as to have no predictive capabilities.</p>
+<p>Thus, the only data suitable for this endeavor needed to be manually collected. This process involved visiting each product page on TCGPlayer and individually recording the weekly average price for each product over the course of 2023. This time-consuming process took numerous hours, even for only the subset of products and product categories selected within this project.</p>
+<p>Beyond the scarcity of the weekly price data, there is also a lack of data regarding the volume of sales or the supply of products brought to market. Wizards of the Coast has an obvious incentive to keep the production numbers for Magic: the Gathering releases private so as to not allow collectors to determine the exact rarity of cards and thus influence the secondary market. TCGPlayer makes some recent transactions available through their website, but these are also presented in a javascript format and are listed in a dynamic window only a few at a time, meaning that manually transcribing this data would have taken exponentially more time for the same scale of data.</p>
+<p><br>
+</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/mtg-pack.jpg" class="img-fluid figure-img" width="800"></p>
+</figure>
 </div>
-<p>For how many collectors and players follow the Magic: the Gathering secondary market, accurate and up to date data can be surprisingly difficult to gather. TCGPlayer, the largest online market for Magic cards, has an API through which card and sealed product prices is made available and updated daily, but the API was closed, with only pre-existing third-party companies maintaining legacy access.</p>
+<p><br>
+</p>
 </section>
-<section id="findings" class="level3">
-<h3 class="anchored" data-anchor-id="findings">Findings</h3>
-<div class="cell">
-
-</div>
+<section id="findings" class="level2">
+<h2 class="anchored" data-anchor-id="findings">Findings</h2>
+<p>Even with these limitations, however, the project still offers interesting insights into Magic: the Gathering’s relationship with Hasbro’s stock price and the nature of time series analysis in general.</p>
+<p>In focusing on Magic: the Gathering, it is clear there is a cap to the predictive power these product price variables will have in improving forecasts of Hasbro’s stock price. Not only is market behavior inherently and historically unpredictable, a product line that represents 15% of an organizations profit margins, while sizable, is still only capturing a small portion of the company’s overall performance. Even so, given that an investor doesn’t need to perfectly predict a company’s stock price, but simply outperform the market, the potential insights to be gained from evaluating the Magic secondary market remains a worthwhile avenue of exploration for further explaining Hasbro’s trajectory.</p>
+<p>While using Magic product data necessitated shifting from daily to weekly data and weakened the direct comparisons between the ARIMAX model and the ARMA or neutral network iterations, it is still noteworthy that this process validated the hypothesis that Magic: the Gathering cards improved model performance as multi-variate features in an ARIMAX model. If future iterations of this project were able to obtain accurate daily Magic: the Gathering product prices, it would be fascinating to recreate these models at the same unit of analysis and timeframe and be able to compare them more evenly.</p>
+<p>This constraint highlights insights about time series analysis in general. First, the granularity and scale of the data is often a determining factor in the predictive capabilities or quality of analysis for any project.</p>
+<p>Ultimately, this project does not definitively determine the value of analyzing Hasbro’s stock price through the lens of Magic: the Gathering cards. It’s not clear whether investors could have predicted the sharp downturn Hasbro experienced when Bank of America double-downgraded their stock over allegations of overprinting and overpricing their “golden goose” of a card game. These findings are not surprising outcomes, considering the data constraints and complexities of the financial market</p>
+<p>Instead, this project suggests that secondary market prices may improve forecasting capabilities, but that the process is quite dependent on the quality, granularity, and availability of the data. This project presents this potential with the hope that as data becomes more accessible, further models can be tested to more holisticly capture the relationship between Magic: the Gathering’s secondary market and Hasbro’s stock price.</p>
 
 
 </section>
