@@ -217,7 +217,7 @@ fit <- auto.arima(all_prices_ts[, "Hasbro"], xreg = xreg)
 
 \
 
-The auto-generated model results in a ARMA(1,1) design. The model has an AIC of -191.99 and a BIC of -176.85. From comparing the estimates and standard errors, we can note that the ar1, ma1, set booster, s&p500, and volume variables are statistically significant.
+The auto-generated model results in an `ARMA(1,1)` design. The model has an AIC of -191.99 and a BIC of -176.85. From comparing the estimates and standard errors, we can note that the ar1, ma1, set booster, s&p500, and volume variables are statistically significant.
 
 We next implement a manual model selection process starting with a general linear regression and then introducing several ARIMA model options for capturing the residuals of the regression's fit.
 
@@ -294,7 +294,7 @@ temp= as.data.frame(ls)
 names(temp)= c("p","d","q","AIC","BIC","AICc")
 ```
 
-Two models stand out from these results. ARIMA(2,0,3) minimizes the AIC with a low BIC, while ARIMA(1,0,0) minimizes the BIC with a low AIC as well. With these two models and the auto-generated ARIMA(1,0,1) model, we continue with model diagnostics and evaluation through cross-validation.
+Two models stand out from these results. `ARIMA(2,0,3)` minimizes the AIC with a low BIC, while `ARIMA(1,0,0)` minimizes the BIC with a low AIC as well. With these two models and the auto-generated `ARIMA(1,0,1)` model, we continue with model diagnostics and evaluation through cross-validation.
 
 \
 
@@ -326,7 +326,7 @@ model_output_a <- capture.output(sarima(res.fit, 1,0,1))
 
 \
 
-All three models report very similar results, potentially pointing to the difficulty of the modeling task and noise inherent in the financial data we're working with. A few smaller differences stand out - ARIMA(1,0,0) includes a point where the p-values in the Ljung-Box statistics plot is not above the statistically significant threshold. Only ARIMA(2,0,3) includes an ACF plot without any statistically significant lags, but even this is likely a minimal difference between it and the others.
+All three models report very similar results, potentially pointing to the difficulty of the modeling task and noise inherent in the financial data we're working with. A few smaller differences stand out - `ARIMA(1,0,0)` includes a point where the p-values in the Ljung-Box statistics plot is not above the statistically significant threshold. Only `ARIMA(2,0,3)` includes an ACF plot without any statistically significant lags, but even this is likely a minimal difference between it and the others.
 
 As such, we are inclined to proceed with all three models for future consideration. Next we will use cross validation to further evaluate the models.
 
@@ -373,9 +373,9 @@ legend("topleft",legend=c("(2,0,3)","(1,0,0)","(1,0,1)"),col=2:4,lty=1)
 
 \
 
-Considering the three models, we observe the most complicated model, ARIMA(2,0,3) has the highest RSME at each prediction point. The other two models have more similar RSME plots, with the auto-generated model, ARIMA(1,0,1) having a slightly higher RSME for the first horizon, but having a more gradual increase than the other model, ARIMA(1,1,0), which has the lowest RMSE for the first three horizons and is only slightly less accurate on the fourth horizon than the auto-generated model.
+Considering the three models, we observe the most complicated model, `ARIMA(2,0,3)` has the highest RSME at each prediction point. The other two models have more similar RSME plots, with the auto-generated model, `ARIMA(1,0,1)` having a slightly higher RSME for the first horizon, but having a more gradual increase than the other model, `ARIMA(1,1,0)`, which has the lowest RMSE for the first three horizons and is only slightly less accurate on the fourth horizon than the auto-generated model.
 
-With these results, along with the previous model diagnostic steps, we proceed with the auto-generated ARIMA(1,0,1) model for forecasting with exogenous variables.
+With these results, along with the previous model diagnostic steps, we proceed with the auto-generated `ARIMA(1,0,1)` model for forecasting with exogenous variables.
 
 \
 
@@ -387,9 +387,9 @@ final_fit <- Arima(all_prices_ts[, "Hasbro"],order=c(1,0,1), xreg=xreg)
 # summary(final_fit)
 ```
 
-After manually investigating models, we select the ARIMAX(1,1) model for its simplicity, optimized AIC and BIC values, and smoother predictive performance over the forecasting horizon explored above. It also features an RSME of 0.027, a noteable improvement over the 1.8 RSME of the ARMA model previously considered.
+After manually investigating models, we select the `ARIMAX(1,1)` model for its simplicity, optimized AIC and BIC values, and smoother predictive performance over the forecasting horizon explored above. It also features an RSME of 0.027, a notable improvement over the 1.8 RSME of the ARMA model previously considered.
 
-The coefficients are slightly different from the original auto-arima model's output due to the inclusion of the intercept in these results. The same variables remain statistically significant, however.
+The coefficients are slightly different from the original `auto.arima` model's output due to the inclusion of the intercept in these results. The same variables remain statistically significant, however.
 
 \
 
@@ -406,7 +406,7 @@ The coefficients are slightly different from the original auto-arima model's out
 
 \
 
-In general, a ARIMAX model with five exogenous variables and an ARMA(1,1) structure would take the form:
+In general, a ARIMAX model with five exogenous variables and an `ARMA(1,1)` structure would take the form:
 
 $y_t = \beta_1x_{1t} + \beta_2x_{2t} + \beta_3x_{3t} + \beta_4x_{4t} + \beta_5x_{5t} + \phi_1y_{t-1} - \theta_1z_{t-1} + z_t$
 

@@ -138,7 +138,7 @@ names(temp)= c("p","d","q","AIC","BIC","AICc")
 
 \
 
-From considering the AIC and BIC values, two model evaluation measures we seek to minimize, it seems the simplest models perform the best. The model that considers only the differenced data (p=0, d=1, q=0), essentially making it a random walk model, provides the minimum BIC, while the model that considers the differenced data with a single lag term (p=1, d=1, q=0) provides the minimum AIC with a slightly higher BIC. Given that both of these models make a logical sense based on the use of financial data, we will proceed in comparing them with further diagnostic analysis.
+From considering the AIC and BIC values, two model evaluation measures we seek to minimize, it seems the simplest models perform the best. The model that considers only the differenced data (`ARIMA(0,1,0)`), essentially making it a random walk model, provides the minimum BIC, while the model that considers the differenced data with a single lag term (`ARIMA(1,1,0)`) provides the minimum AIC with a slightly higher BIC. Given that both of these models make a logical sense based on the use of financial data, we will proceed in comparing them with further diagnostic analysis.
 
 \
 
@@ -173,7 +173,7 @@ auto_model
 
 \
 
-Without any further parameters provided, the Auto-ARIMA function suggests that the random walk (0,1,0) model is the best fit and returns the same AIC and BIC as the manually tuned models. Though this process does not always optimize a model perfectly, it is a helpful confirmation of our process in this case and affirms the decision to proceed with the random walk model.
+Without any further parameters provided, the `auto.arima` function suggests that the random walk `ARIMA(0,1,0)` model is the best fit and returns the same AIC and BIC as the manually tuned models. Though this process does not always optimize a model perfectly, it is a helpful confirmation of our process in this case and affirms the decision to proceed with the random walk model.
 
 The model of the equation is thus simply:
 
