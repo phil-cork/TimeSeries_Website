@@ -28,7 +28,9 @@ Having established the rise and fall of Hasbro's stock price over recent years, 
 
 \
 
-### Revisiting Stationarity
+### Revisiting Stationarity[^1]
+
+[^1]: [Code for all models and data visualization](https://github.com/phil-cork/TimeSeries_Website/blob/main/_website_source/models.qmd)
 
 From the analysis conducted during the [exploratory](/exploratory-data-analysis.html) stage, Hasbro's stock data has been first-order differenced into a weakly stationary dataset. To confirm this transformation, we consider the ACF plot and Augmented Dickey-Fuller Test results for the differenced time series.
 

@@ -31,27 +31,31 @@ In the first attempt to model Hasbro's stock price, we found that using only pas
 
 \
 
-## Can Magic the Gathering help predict Hasbro's stock price?
+## Can Magic: the Gathering help predict Hasbro's stock price?[^1]
+
+[^1]: [Magic: the Gathering data available on Github](https://github.com/phil-cork/TimeSeries_Website/blob/main/_data/sealed_market_value.csv)
 
 ![](images/magic-cards.jpg){width="961"}
 
 \
 
-As described in this project's [introduction](/introduction.html), Magic the Gathering is a valuable method for investigating Hasbro's stock value because it has become an increasingly important part of their portfolio. It recently became Hasbro's first [\$1 billion brand](https://hasbro.gcs-web.com/news-releases/news-release-details/hasbro-reports-third-quarter-financial-results). While other subsidiaries report net losses, Wizards of the Coast, producer of Magic the Gathering as well as Dungeons and Dragons, has continued to report strong profits, driving much of Hasbro's revenue.
+As described in this project's [introduction](/introduction.html), Magic: the Gathering is a valuable method for investigating Hasbro's stock value because it has become an increasingly important part of their portfolio. It recently became Hasbro's first [\$1 billion brand](https://hasbro.gcs-web.com/news-releases/news-release-details/hasbro-reports-third-quarter-financial-results). While other subsidiaries report net losses, Wizards of the Coast, producer of Magic: the Gathering as well as Dungeons and Dragons, has continued to report strong profits, driving much of Hasbro's revenue.
 
-Further, the secondary market for Magic the Gathering cards offers a unique way to potentially enhance the model's predictive capability. Given that Magic is such an important part of Hasbro's portfolio, it's possible that Magic card prices could inform the stock's price movement. For example, in quarters when popular Magic products are sold, those products are likely to maintain a higher price on the secondary market. Then, the resulting profit from these products being sold by Wizards of the Coast into the secondary market would be reported to Hasbro investors, potentially increasing the stock's value.
+Further, the secondary market for Magic: the Gathering cards offers a unique way to potentially enhance the model's predictive capability. Given that Magic is such an important part of Hasbro's portfolio, it's possible that Magic card prices could inform the stock's price movement. For example, in quarters when popular Magic products are sold, those products are likely to maintain a higher price on the secondary market. Then, the resulting profit from these products being sold by Wizards of the Coast into the secondary market would be reported to Hasbro investors, potentially increasing the stock's value.
 
-This context sets the stage for selecting features and testing the central question - can Magic the Gathering predict Hasbro's stock price?
+This context sets the stage for selecting features and testing the central question - can Magic: the Gathering predict Hasbro's stock price?
 
 \
 
-## Selecting Magic the Gathering Model Features
+## Selecting Magic: the Gathering Model Features[^2]
+
+[^2]: [Code for all plots and modeling](https://github.com/phil-cork/TimeSeries_Website/blob/main/_website_source/arimax.qmd)
 
 Given that there are more than 20,000 Magic cards released over the last thirty years, a vast majority of these data points would only introduce noise into the model. Thus, it is more helpful to consider the sealed products in which cards are purchased. See the [data visualization](/data-visualization.html) page for more details on these products.
 
 When considering these products, it is unlikely that any products outside those currently being produced by Wizards of the Coast would impact Hasbro's valuation. While print run data for Magic card is not publicly available, there is a general consensus that each standard set of Magic cards is in production for 12-18 months and are generally printed to demand. Exceptions to this rule include limited print run products such as Collector Booster Boxes and Remastered sets, which are only printed once or in a much more constrained quantity in multiple waves of printing.
 
-To estimate how the Magic the Gathering secondary market could inform Hasbro's stock price, we include the weekly prices for the sealed Magic products from 2021. This subset of products ensures that all were still in production and thus relevant to Hasbro's financial performance.
+To estimate how the Magic: the Gathering secondary market could inform Hasbro's stock price, we include the weekly prices for the sealed Magic products from 2021. This subset of products ensures that all were still in production and thus relevant to Hasbro's financial performance.
 
 Even in working with sealed products, the volume of product releases in 2022 creates dozens of potential features, all of which enter the market at different times. To simplify the secondary market data further into a more equivalent comparison, all of the products are aggregated together by the product type and the average price value is taken for however many products are available to purchase in a given week.
 
@@ -59,7 +63,7 @@ Even in working with sealed products, the volume of product releases in 2022 cre
 
 ```{r, message=FALSE,warning=FALSE}
 
-# import manually scraped data for magic the gathering sealed products
+# import manually scraped data for Magic: the Gathering sealed products
 sealed <- read.csv("../_data/sealed_market_value.csv")
 sealed$week_start <- as.Date(sealed$week_start)
 sealed$week_end <- as.Date(sealed$week_end)
@@ -88,9 +92,11 @@ ggplot(by_box, aes(x=week, y=avg_price, color=id)) +
 
 \
 
-## Selecting Other Model Features
+## Selecting Other Model Features[^3]
 
-We also include Hasbro's trade volume to capture the amount of activity at a given price point. The data is also transformed from daily prices to average weekly price to match the frequency of the available Magic the Gathering product data. The average is chosen as the aggregation method because while there is volatility present in the stock price, there are not such huge changes on a daily basis as to create outliers that would warp the mean of the week's adjusted stock prices.
+[^3]: [Final model data available on Github](https://github.com/phil-cork/TimeSeries_Website/blob/main/_data/arimax-model-data.csv)
+
+We also include Hasbro's trade volume to capture the amount of activity at a given price point. The data is also transformed from daily prices to average weekly price to match the frequency of the available Magic: the Gathering product data. The average is chosen as the aggregation method because while there is volatility present in the stock price, there are not such huge changes on a daily basis as to create outliers that would warp the mean of the week's adjusted stock prices.
 
 ```{r, message=FALSE,warning=FALSE}
 # import Hasbro stock price and trade volume
@@ -455,12 +461,12 @@ Ultimately, the model's forecast appears slightly optimistic for Hasbro's stock 
 
 As another observation from the model, it is interesting to note the statistically significant variables. Within the final ARIMAX model, the coefficient for the logged weekly average price of Set boosters boxes, the logged weekly average price of the S&P500, and the logged average weekly trade volume of Hasbro were all statistically significant Of course, because of the auto-correlated lag variables included in the model, these can not be interpreted as directly as in their OLS counterpart, but their presence is helpful in identifying potential sources of predictive power.
 
-The resulting forecast and significant variables indicate the market's broad forces and the activity surrounding Hasbro's stock may be more powerful in forecasting than the secondary market data. This is unsurprising, but it is encouraging to see one variable representing Magic the Gathering as statistically significant as well.
+The resulting forecast and significant variables indicate the market's broad forces and the activity surrounding Hasbro's stock may be more powerful in forecasting than the secondary market data. This is unsurprising, but it is encouraging to see one variable representing Magic: the Gathering as statistically significant as well.
 
-Finally, it's worth remembering that there are no shortage of other variables within the error term of the model. These missing features likely introduce endogeneity to the model. Examples of these spurious variables include the unknown volume of Magic the Gathering products sold in a given week, other economic indicators such as treasury yields or inflation rates, the sentiment of investors over time, and other related stock prices, such as rival toy company, Mattel.
+Finally, it's worth remembering that there are no shortage of other variables within the error term of the model. These missing features likely introduce endogeneity to the model. Examples of these spurious variables include the unknown volume of Magic: the Gathering products sold in a given week, other economic indicators such as treasury yields or inflation rates, the sentiment of investors over time, and other related stock prices, such as rival toy company, Mattel.
 
 \
 
 ## Conclusion
 
-In this exercise, we have justified the use of Magic the Gathering secondary market data in multivariate analysis for predicting Hasbro's stock based on it's importance to Hasbro's overall revenue and profitability. We evaluated a number of ARIMA models, both auto-generated and manually identified. We conducted model diagnostics and cross-validation to select a best-fit model. We then used this model along with the identified exogenous variables to forecast Hasbro's future stock prices. The results improved upon simpler processes, but can be further improved. In future steps, we will analyze and model Hasbro's volatility with ARCH models to better capture the stock's performance.
+In this exercise, we have justified the use of Magic: the Gathering secondary market data in multivariate analysis for predicting Hasbro's stock based on it's importance to Hasbro's overall revenue and profitability. We evaluated a number of ARIMA models, both auto-generated and manually identified. We conducted model diagnostics and cross-validation to select a best-fit model. We then used this model along with the identified exogenous variables to forecast Hasbro's future stock prices. The results improved upon simpler processes, but can be further improved. In future steps, we will analyze and model Hasbro's volatility with ARCH models to better capture the stock's performance.

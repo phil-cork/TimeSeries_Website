@@ -176,7 +176,7 @@ ul.task-list li input[type="checkbox"] {
 <div class="cell">
 
 </div>
-<p>Thus far, we’ve explored two models for predicting Hasbro’s stock price. Using an <a href="./models.html">ARMA model</a>, we predicted the daily value of the stock based on previous values. While simple, this method did not provide much of a boost over benchmark methods. We then implemented a more complex <a href="./arimax.html">ARIMAX model</a>, adding independent variables that we hypothesized would further inform the model’s predictive capabilities. These variables included the S&amp;P500’s performance, Hasbro’s trade volume, and the weekly price of Magic the Gathering products, one of Hasbro’s most profitable and growing product lines. The results showed improvement over the ARIMA model, but still failed to capture all of the volatility reflected in Hasbro’s stock price in a tumultuous year.</p>
+<p>Thus far, we’ve explored two models for predicting Hasbro’s stock price. Using an <a href="./models.html">ARMA model</a>, we predicted the daily value of the stock based on previous values. While simple, this method did not provide much of a boost over benchmark methods. We then implemented a more complex <a href="./arimax.html">ARIMAX model</a>, adding independent variables that we hypothesized would further inform the model’s predictive capabilities. These variables included the S&amp;P500’s performance, Hasbro’s trade volume, and the weekly price of Magic: the Gathering products, one of Hasbro’s most profitable and growing product lines. The results showed improvement over the ARIMA model, but still failed to capture all of the volatility reflected in Hasbro’s stock price in a tumultuous year.</p>
 <p><br>
 </p>
 <p><img src="images/magic-mh-hero.png" class="img-fluid"></p>
@@ -185,9 +185,9 @@ ul.task-list li input[type="checkbox"] {
 <p>To further compare the ARIMAX model to other options, we pivot back to considering the daily Hasbro stock price and implement a GARCH model to capture the volatility previously not represented by the original ARMA model.</p>
 <p><br>
 </p>
-<section id="revisiting-hasbro-stock-prices" class="level4">
-<h4 class="anchored" data-anchor-id="revisiting-hasbro-stock-prices">Revisiting Hasbro Stock Prices</h4>
-<p>We briefly revisit the plot of Hasbro’s closing stock price over the year for which we have Magic the Gathering secondary market data. We’re reminded of the tumultuous year it represents, with Hasbro’s stock losing roughly one-third of its market value in this window.</p>
+<section id="revisiting-hasbros-stock-prices1" class="level4">
+<h4 class="anchored" data-anchor-id="revisiting-hasbros-stock-prices1">Revisiting Hasbro’s Stock Prices<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></h4>
+<p>We briefly revisit the plot of Hasbro’s closing stock price over the year for which we have Magic: the Gathering secondary market data. We’re reminded of the tumultuous year it represents, with Hasbro’s stock losing roughly one-third of its market value in this window.</p>
 <p>Given the swing in values and magnitude of the range, we also take the log of the stock price to use for modeling.</p>
 <div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Hasbro Stock Price</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Hasbro Stock Price, Logged</a></li></ul>
@@ -213,7 +213,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="investigating-the-returns-model-residuals" class="level4">
 <h4 class="anchored" data-anchor-id="investigating-the-returns-model-residuals">Investigating the Returns &amp; Model Residuals</h4>
-<p>In viewing the returns, there is a fairly centered mean around zero. There is also some clustered volatility in November of 2022, precisely the window in which Bank of America published its findings on how Hasbro was negatively impacting the value of Magic the Gathering. Given that the data does not have the appearance of simply Gaussian white noise, there is an opportunity for further modeling to improve the forecasting results.</p>
+<p>In viewing the returns, there is a fairly centered mean around zero. There is also some clustered volatility in November of 2022, precisely the window in which Bank of America published its findings on how Hasbro was negatively impacting the value of Magic: the Gathering. Given that the data does not have the appearance of simply Gaussian white noise, there is an opportunity for further modeling to improve the forecasting results.</p>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="financial-ts-models_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
@@ -406,7 +406,13 @@ ul.task-list li input[type="checkbox"] {
 
 </section>
 
-</main> <!-- /main -->
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p><a href="https://github.com/phil-cork/TimeSeries_Website/blob/main/_website_source/financial-ts-models.qmd">Code for all models and data visualization</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

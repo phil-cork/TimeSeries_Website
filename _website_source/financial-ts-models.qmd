@@ -29,7 +29,7 @@ options(scipen = 999999999)
 
 ```
 
-Thus far, we've explored two models for predicting Hasbro's stock price. Using an [ARMA model](/models.html), we predicted the daily value of the stock based on previous values. While simple, this method did not provide much of a boost over benchmark methods. We then implemented a more complex [ARIMAX model](/arimax.html), adding independent variables that we hypothesized would further inform the model's predictive capabilities. These variables included the S&P500's performance, Hasbro's trade volume, and the weekly price of Magic the Gathering products, one of Hasbro's most profitable and growing product lines. The results showed improvement over the ARIMA model, but still failed to capture all of the volatility reflected in Hasbro's stock price in a tumultuous year.
+Thus far, we've explored two models for predicting Hasbro's stock price. Using an [ARMA model](/models.html), we predicted the daily value of the stock based on previous values. While simple, this method did not provide much of a boost over benchmark methods. We then implemented a more complex [ARIMAX model](/arimax.html), adding independent variables that we hypothesized would further inform the model's predictive capabilities. These variables included the S&P500's performance, Hasbro's trade volume, and the weekly price of Magic: the Gathering products, one of Hasbro's most profitable and growing product lines. The results showed improvement over the ARIMA model, but still failed to capture all of the volatility reflected in Hasbro's stock price in a tumultuous year.
 
 \
 
@@ -41,9 +41,11 @@ To further compare the ARIMAX model to other options, we pivot back to consideri
 
 \
 
-#### Revisiting Hasbro Stock Prices
+#### Revisiting Hasbro's Stock Prices[^1]
 
-We briefly revisit the plot of Hasbro's closing stock price over the year for which we have Magic the Gathering secondary market data. We're reminded of the tumultuous year it represents, with Hasbro's stock losing roughly one-third of its market value in this window.
+[^1]: [Code for all models and data visualization](https://github.com/phil-cork/TimeSeries_Website/blob/main/_website_source/financial-ts-models.qmd)
+
+We briefly revisit the plot of Hasbro's closing stock price over the year for which we have Magic: the Gathering secondary market data. We're reminded of the tumultuous year it represents, with Hasbro's stock losing roughly one-third of its market value in this window.
 
 Given the swing in values and magnitude of the range, we also take the log of the stock price to use for modeling.
 
@@ -72,7 +74,7 @@ plot(log(HAS.close), main="Hasbro, Logged")
 
 #### Investigating the Returns & Model Residuals
 
-In viewing the returns, there is a fairly centered mean around zero. There is also some clustered volatility in November of 2022, precisely the window in which Bank of America published its findings on how Hasbro was negatively impacting the value of Magic the Gathering. Given that the data does not have the appearance of simply Gaussian white noise, there is an opportunity for further modeling to improve the forecasting results.
+In viewing the returns, there is a fairly centered mean around zero. There is also some clustered volatility in November of 2022, precisely the window in which Bank of America published its findings on how Hasbro was negatively impacting the value of Magic: the Gathering. Given that the data does not have the appearance of simply Gaussian white noise, there is an opportunity for further modeling to improve the forecasting results.
 
 ```{r}
 

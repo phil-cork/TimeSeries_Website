@@ -20,7 +20,9 @@ Before diving into the modeling techniques, we review the Hasbro stock price ove
 
 \
 
-## Neural Networks
+## Neural Networks[^1]
+
+[^1]: [Code for all plotting and modeling](/deep_learning_code.html)
 
 We consider three neutral networks designs. In each case, the models are built with and without L2 regularization to evaluate the regularization's impact on overfitting and the error term. In each case, we set our partition to predict five days out to represent a week's worth of trading days.
 
