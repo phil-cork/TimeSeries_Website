@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>ANLY560 - Phil Cork - Time Series</title>
+<title>ANLY560 - Phil Cork - Introduction</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -69,7 +69,7 @@ ul.task-list li input[type="checkbox"] {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Time Series</h1>
+      <h1 class="quarto-secondary-nav-title">Introduction</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -94,17 +94,12 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">Home</a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./about-author.html" class="sidebar-item-text sidebar-link">About</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./introduction.html" class="sidebar-item-text sidebar-link">Introduction</a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link active">Introduction</a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -152,11 +147,6 @@ ul.task-list li input[type="checkbox"] {
   <a href="./conclusions.html" class="sidebar-item-text sidebar-link">Conclusions</a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./dv.html" class="sidebar-item-text sidebar-link">Data Vizes in TS</a>
-  </div>
-</li>
     </ul>
     </div>
 </nav>
@@ -167,7 +157,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Time Series</h1>
+<h1 class="title d-none d-lg-block">Introduction</h1>
 </div>
 
 
@@ -182,16 +172,52 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="what-is-a-time-series" class="level3">
-<h3 class="anchored" data-anchor-id="what-is-a-time-series">What is a Time Series ?</h3>
-<ul>
-<li><p>Any metric that is measured over regular time intervals makes a Time Series.</p>
-<ul>
-<li>Example: Weather data, Stock prices, Industry forecasts, etc are some of the common ones.</li>
-</ul></li>
-<li><p>The analysis of experimental data that have been observed at different points in time leads to new and unique problems in statistical modeling and inference.</p></li>
-</ul>
-<p>The obvious correlation introduced by the sampling of adjacent points in time can severely restrict the applicability of the many conventional statistical methods traditionally dependent on the assumption that these adjacent observations are independent and identically distributed.</p>
+<p>Hasbro’s stock has fallen sharply in recent months after mainstream news outlets accused the company of killing their “golden goose” by overproducing and overcharging for Magic the Gathering products. Fans of Magic the Gathering, however, had expressed these same frustrations for months before journalists and news pundits caught on. Is it possible that by analyzing the secondary market for Magic products, investors could have predicted this downturn sooner?</p>
+<p><br>
+</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/Hasbro-logo-featured.jpg" class="img-fluid figure-img" alt="Hasbro logo and iconic brands" width="355"></p>
+</figure>
+</div>
+<p><br>
+</p>
+<section id="hasbro" class="level3">
+<h3 class="anchored" data-anchor-id="hasbro">Hasbro</h3>
+<p>Hasbro is a United States-based, multinational conglomerate that owns the trademarks for a number of prominent toy and entertainment subsidiaries such as Milton Bradley, Tonka, Playskool, Parker Brothers and others. Their range of toy, game, and entertainment products include Nerf, G.I. Joe, Power Rangers, Monopoly, My Little Pony, and dozens of other brands. Chief among Hasbro’s subsidiaries is Wizards of the Coast, the company responsible for the Dungeons &amp; Dragons and Magic the Gathering brands. This project analyzes the Magic the Gathering trading card game as a proxy to better understand and potentially forecast Hasbro’s financial performance.</p>
+<p><br>
+</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/Magic-the-Gathering-logo.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p><br>
+</p>
+</section>
+<section id="magic-the-gathering" class="level3">
+<h3 class="anchored" data-anchor-id="magic-the-gathering">Magic the Gathering</h3>
+<p>Magic the Gathering is a trading card game in which two or more players utilize their custom-tailored deck of cards that represent spells and creatures to battle one another. The game was first released by Wizards of the Coast in 1993 and was the first trading card game of its kind, soon to be followed by similar games like Pokemon and Yu-gi-oh. As of April 2022, the game had approximately <a href="https://www.businessinsider.com/magic-the-gathering-announces-10-million-esports-program-for-2019-2018-12">35 million players</a>. Between 2008 and 2016, when the game saw an explosive growth in popularity, more than <a href="https://en.wikipedia.org/wiki/Magic:_The_Gathering">twenty billion</a> Magic cards were manufactured. As of January 2023, there are more than <a href="https://gatherer.wizards.com/Pages/Search/Default.aspx?page=256&amp;output=compact&amp;action=advanced&amp;type=%7C%5B%22Artifact%22%5D%7C%5B%22Conspiracy%22%5D%7C%5B%22Creature%22%5D%7C%5B%22Enchantment%22%5D%7C%5B%22Instant%22%5D%7C%5B%22Land%22%5D%7C%5B%22Phenomenon%22%5D%7C%5B%22Plane%22%5D%7C%5B%22Planeswalker%22%5D%7C%5B%22Scheme%22%5D%7C%5B%22Sorcery%22%5D%7C%5B%22Vanguard%22%5D">25,650 unique Magic cards</a>.</p>
+<p>Magic the Gathering is a valuable tool for thinking about Hasbro’s value in three ways. First, Wizards of the Coast (WOTC) has become an increasingly important subsidiary to its parent company. While other subsidiaries are losing money, Hasbro’s reported record growth from Wizards of the Coast. Second, because Magic the Gathering is a competitive trading card game, there is an open market where cards purchased from WOTC are sold by consumers. This secondary market helps explain Magic’s performance in more precise financial outcomes. Finally, Hasbro has been in the financial news lately due to some questionable Magic the Gathering product decisions made in the last year, so it is a both timely and relevant consideration.</p>
+<p><br>
+</p>
+</section>
+<section id="project-overview" class="level3">
+<h3 class="anchored" data-anchor-id="project-overview">Project Overview</h3>
+<p>More specifically, this project leverages product pricing data on the secondary market to better understand and potentially forecast the performance of the brand and its parent company, Hasbro.</p>
+<p>Since this endeavor is fairly open-ended, ten questions will guide the analysis:</p>
+<ol type="1">
+<li><p>How has Hasbro’s stock changed over time?</p></li>
+<li><p>What management and product decisions have influence Hasbro’s stock price in recent years?</p></li>
+<li><p>How did the COVID-19 pandemic affect Hasbro’s stock price and consumer behavior?</p></li>
+<li><p>How much of Hasbro’s success depends on Wizards of the Coast and its brands?</p></li>
+<li><p>How have Magic the Gathering product offerings changed over time?</p></li>
+<li><p>How have Magic the Gathering sealed products on the secondary market changed in price over time?</p></li>
+<li><p>Is there a seasonal component to Hasbro’s stock based on the release of Magic the Gathering products?</p></li>
+<li><p>Is there a seasonal component to Magic the Gathering’s products secondary market behavior?</p></li>
+<li><p>Is there a correlation between Magic the Gathering product performance and Hasbro stock price changes?</p></li>
+<li><p>Does using data about Magic the Gathering’s secondary market impact our ability to forecast Hasbro’s stock value?</p></li>
+</ol>
 
 
 </section>

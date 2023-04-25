@@ -7,11 +7,10 @@ website:
   sidebar:
     style: "docked"
     contents:
-      - text: Home
-        file: index.qmd
+
       - file: about-author.qmd
         text: About
-      - file: introduction.qmd
+      - file: index.qmd
         text: Introduction
       - file: data-sources.qmd
         text: Data Sources
@@ -31,8 +30,6 @@ website:
         text: Deep Learning for TS
       - file: conclusions.qmd
         text: Conclusions
-      - file: dv.qmd
-        text: Data Vizes in TS
 
 format:
   html:
